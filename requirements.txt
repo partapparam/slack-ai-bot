@@ -1,0 +1,9 @@
+slack-bolt
+slack-sdk
+openai
+tiktoken
+# https://github.com/Yelp/elastalert/issues/2306
+urllib3<2
+python-dotenv
+flask
+pyyaml
