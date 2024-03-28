@@ -7,3 +7,9 @@ urllib3<2
 python-dotenv
 flask
 pyyaml
+chromadb
+langchain
+requests
+tabulate
+unstructured
+PyMuPDF
