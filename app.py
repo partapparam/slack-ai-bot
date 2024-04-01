@@ -4,6 +4,7 @@ from slack_bolt import App
 from slack_bolt import (Say, Respond, Ack)
 from slack_bolt.oauth.oauth_settings import OAuthSettings
 from slack_sdk.oauth.installation_store import FileInstallationStore, Installation
+from slack_sdk.oauth import AuthorizeUrlGenerator
 from slack_sdk.oauth.state_store import FileOAuthStateStore
 from typing import (Dict, Any)
 from slack_sdk.web import WebClient, SlackResponse
@@ -13,6 +14,9 @@ from slack_bolt.adapter.flask import SlackRequestHandler
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import json
+import yaml
+import html
 
 TOKEN = os.getenv('TOKEN')
 AUTH = os.getenv('AUTH')
@@ -30,6 +34,16 @@ app = App(
     token=SLACK_BOT_TOKEN,
     signing_secret=SLACK_SIGNING_SECRET,
     oauth_settings=oauth_settings
+)
+
+with open('./manifest.yaml', mode='r') as file:
+    config = yaml.safe_load(file)
+    
+scopes = config['oauth_config']['scopes']['bot']
+# Build https://slack.com/oauth/v2/authorize with sufficient query parameters
+authorize_url_generator = AuthorizeUrlGenerator(
+    client_id=SLACK_CLIENT_ID,
+    scopes=scopes,
 )
 
 
@@ -68,7 +82,10 @@ from flask import Flask, request
 
 flask_app = Flask(__name__)
 handler = SlackRequestHandler(app)
-
+# Issue and consume state parameter value on the server-side.
+state_store = FileOAuthStateStore(expiration_seconds=300, base_dir="./data")
+# Persist installation data and lookup it by IDs.
+installation_store = FileInstallationStore(base_dir="./data")
 
 @flask_app.route("/slack/events", methods=["POST"])
 def slack_events():
@@ -78,13 +95,13 @@ def slack_events():
 @flask_app.route('/slack/install')
 def slack_install():
     print('getting slack install')
-    return
+    # Generate a random value and store it on the server-side
+    state = state_store.issue()
+    # https://slack.com/oauth/v2/authorize?state=(generated value)&client_id={client_id}&scope=app_mentions:read,chat:write&user_scope=search:read
+    url = authorize_url_generator.generate(state)
+    return f'<a href="{html.escape(url)}">' \
+           f'<img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>'
 
-
-# Issue and consume state parameter value on the server-side.
-state_store = FileOAuthStateStore(expiration_seconds=300, base_dir="./data")
-# Persist installation data and lookup it by IDs.
-installation_store = FileInstallationStore(base_dir="./data")
 
 @flask_app.route('/slack/oauth_redirect')
 def slack_oauth():
