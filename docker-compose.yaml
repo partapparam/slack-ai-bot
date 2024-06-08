@@ -1,0 +1,9 @@
+services:
+  ai-slack-bot:
+    image: ai-slack-bot
+    container_name: ai-slack-bot
+    build: ./
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    ports:
+      - 8000:8000

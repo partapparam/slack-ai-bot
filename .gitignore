@@ -2,3 +2,4 @@
 .venv/
 test.json
 data/
+__pycache__
