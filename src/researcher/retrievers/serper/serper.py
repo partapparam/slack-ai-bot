@@ -41,7 +41,7 @@ class SerperSearch():
 
         """
         print("Searching with query {0}...".format(self.query))
-        """Useful for general internet search queries using the Serp API."""
+        """Useful for general internet search queries using the Serper API."""
 
 
         # Search the query (see https://serper.dev/playground for the format)
@@ -63,7 +63,7 @@ class SerperSearch():
         except Exception as e: # Fallback in case overload on Serper Search API
             print(f"Error: {e}")
             ddg = DDGS()
-            search_response = ddg.text(self.query, region='wt-wt', max_results=max_results)
+            search_results = ddg.text(self.query, region='wt-wt', max_results=max_results)
         if search_results is None:
             return
 
