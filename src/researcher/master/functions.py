@@ -134,4 +134,51 @@ def scrape_urls(urls, query, cfg=None):
         print(f"Traceback: {traceback.format_exc()}{Style.RESET_ALL}")
     return sources
 
+async def summarize(query, content, agent_role_prompt, cfg, websocket=None):
+    """
+    Asynchronously summarizes a list of URLs.
+
+    Args:
+        query (str): The search query.
+        content (list): List of dictionaries with 'url' and 'raw_content'.
+        agent_role_prompt (str): The role prompt for the agent.
+        cfg (object): Configuration object.
+
+    Returns:
+        list: A list of dictionaries with 'url' and 'summary'.
+    """
+
+    # Function to handle each summarization task for a chunk
+    async def handle_task(url, chunk):
+        summary = await summarize_url(query, chunk, agent_role_prompt, cfg)
+        if summary:
+            await stream_output("logs", f"🌐 Summarizing url: {url}", websocket)
+            await stream_output("logs", f"📃 {summary}", websocket)
+        return url, summary
+
+    # Function to split raw content into chunks of 10,000 words
+    def chunk_content(raw_content, chunk_size=10000):
+        words = raw_content.split()
+        for i in range(0, len(words), chunk_size):
+            yield " ".join(words[i : i + chunk_size])
+
+    # Process each item one by one, but process chunks in parallel
+    concatenated_summaries = []
+    for item in content:
+        url = item["url"]
+        raw_content = item["raw_content"]
+
+        # Create tasks for all chunks of the current URL
+        chunk_tasks = [handle_task(url, chunk) for chunk in chunk_content(raw_content)]
+
+        # Run chunk tasks concurrently
+        chunk_summaries = await asyncio.gather(*chunk_tasks)
+
+        # Aggregate and concatenate summaries for the current URL
+        summaries = [summary for _, summary in chunk_summaries if summary]
+        concatenated_summary = " ".join(summaries)
+        concatenated_summaries.append({"url": url, "summary": concatenated_summary})
+
+    return concatenated_summaries
+
 
