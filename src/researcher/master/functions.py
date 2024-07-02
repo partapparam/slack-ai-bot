@@ -105,3 +105,33 @@ def normalize_query(query: str) -> str:
         print(f"Traceback: {traceback.format_exc()}{Style.RESET_ALL}")
         return query
 
+
+def scrape_urls(urls, query, cfg=None):
+    """
+    Scrapes the urls
+    Args:
+        urls: List of urls
+        cfg: Config (optional)
+
+    Returns:
+        text: str
+
+    """
+    sources = []
+    # content = []
+
+    user_agent = (
+        cfg.user_agent
+        if cfg
+        else "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
+    )
+    try:
+        scraper = Scraper(urls, query, user_agent, cfg.scraper)
+        # unpack the generator
+        sources = scraper.run()
+    except Exception as e:
+        print(f"{Fore.RED}Error in scrape_urls: {e}{Style.RESET_ALL}")
+        print(f"Traceback: {traceback.format_exc()}{Style.RESET_ALL}")
+    return sources
+
+
