@@ -181,4 +181,46 @@ async def summarize(query, content, agent_role_prompt, cfg, websocket=None):
 
     return concatenated_summaries
 
+async def summarize_url(query, raw_data, agent_role_prompt, cfg):
+    """
+    Summarizes the text
+    Args:
+        query:
+        raw_data:
+        agent_role_prompt:
+        cfg:
+
+    Returns:
+        summary: str
+
+    """
+    summary = ""
+    try:
+        summary = await create_chat_completion(
+            model=cfg.fast_llm_model,
+            messages=[
+                {"role": "system", "content": f"{agent_role_prompt}"},
+                {
+                    "role": "user",
+                    "content": f"{generate_summary_prompt(query, raw_data)}",
+                },
+            ],
+            temperature=0,
+            llm_provider=cfg.llm_provider,
+        )
+    except Exception as e:
+        print(f"{Fore.RED}Error in summarize: {e}{Style.RESET_ALL}")
+
+    print(
+        f"""
+        from summarize_url:
+        query: {query}
+        raw_data: {raw_data}
+        agent_role_prompt: {agent_role_prompt}
+        cfg:
+        summary: {summary}
+        """
+    )
+    return summary
+
 
