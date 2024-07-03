@@ -1,8 +1,10 @@
 from researcher.master.prompts import *
-
+from researcher.scraper import Scraper
+from researcher.llm import *
 import asyncio
 import json
 import traceback
+
 
 def get_retriever(retriever):
     """
@@ -29,6 +31,35 @@ def get_retriever(retriever):
 
     return retriever
 
+
+async def choose_agent(query, cfg):
+    """
+    Chooses the agent automatically
+    Args:
+        query: original query
+        cfg: Config
+
+    Returns:
+        agent: Agent name
+        agent_role_prompt: Agent role prompt
+    """
+    try:
+        response = await create_chat_completion(
+            model=cfg.smart_llm_model,
+            messages=[
+                {"role": "system", "content": f"{auto_agent_instructions()}"},
+                {"role": "user", "content": f"task: {query}"},
+            ],
+            temperature=0,
+            llm_provider=cfg.llm_provider,
+        )
+        agent_dict = json.loads(response)
+        return agent_dict["server"], agent_dict["agent_role_prompt"]
+    except Exception as e:
+        return (
+            "Default Agent",
+            "You are an AI critical thinker research assistant. Your sole purpose is to write well written, critically acclaimed, objective and structured reports on given text.",
+        )
 
 async def get_sub_query(
     queries: list[str], parent_query: str, agent_role_prompt: str, cfg
