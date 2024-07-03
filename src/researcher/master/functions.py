@@ -279,4 +279,53 @@ async def summarize_url(query, raw_data, agent_role_prompt, cfg):
     )
     return summary
 
+async def generate_report(
+    query,
+    context,
+    agent_role_prompt,
+    report_type,
+    cfg,
+    main_topic: str = "",
+    existing_headers: list = [],
+):
+    """
+    generates the final report
+    Args:
+        query:
+        context:
+        agent_role_prompt:
+        report_type:
+        cfg:
+        main_topic:
+        existing_headers:
+
+    Returns:
+        report:
+
+    """
+    generate_prompt = get_prompt_by_report_type(report_type)
+    report = ""
+
+    
+    content = (
+        f"{generate_prompt(query, context, cfg.report_format, cfg.total_words)}"
+    )
+
+    try:
+        report = await create_chat_completion(
+            model=cfg.smart_llm_model,
+            messages=[
+                {"role": "system", "content": f"{agent_role_prompt}"},
+                {"role": "user", "content": content},
+            ],
+            temperature=0,
+            llm_provider=cfg.llm_provider,
+            stream=True,
+            max_tokens=cfg.smart_token_limit,
+        )
+    except Exception as e:
+        print(f"{Fore.RED}Error in generate_report: {e}{Style.RESET_ALL}")
+
+    return report
+
 
