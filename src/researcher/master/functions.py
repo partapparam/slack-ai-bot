@@ -4,6 +4,31 @@ import asyncio
 import json
 import traceback
 
+def get_retriever(retriever):
+    """
+    Gets the retriever
+    Args:
+        retriever: retriever name
+
+    Returns:
+        retriever: Retriever class
+
+    """
+    match retriever:
+        case "googleSerp":
+            from researcher.retrievers import SerperSearch
+
+            retriever = SerperSearch
+        case "duckduckgo":
+            from researcher.retrievers import Duckduckgo
+
+            retriever = Duckduckgo
+
+        case _:
+            raise Exception("Retriever not found.")
+
+    return retriever
+
 
 async def get_sub_query(
     queries: list[str], parent_query: str, agent_role_prompt: str, cfg
