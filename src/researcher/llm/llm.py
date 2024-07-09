@@ -5,7 +5,6 @@ import json
 import logging
 from typing import Optional
 
-from colorama import Fore, Style
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
@@ -92,7 +91,7 @@ def choose_agent(smart_llm_model: str, llm_provider: str, task: str) -> dict:
         print(f"Agent: {agent_dict.get('server')}")
         return agent_dict
     except Exception as e:
-        print(f"{Fore.RED}Error in choose_agent: {e}{Style.RESET_ALL}")
+        print(f"LOGS: Error in choose_agent: {e}")
         return {"agent": "Default Agent",
                 "agent_role_prompt": "You are an AI critical thinker research assistant. Your sole purpose is to write well written, critically acclaimed, objective and structured reports on given text."}
 
