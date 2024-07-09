@@ -8,8 +8,30 @@ class Researcher:
     """
         Our Research Agent
     """
-    def __init(self):
-        pass
+    def __init(
+            self,
+            query: str,
+            agent = None,
+            subqueries: list = [],
+            source_urls: list[str] = [],
+            request_id: Union[str, None] = None):
+        """
+        Initialize the Researcher class.
+        Args:
+            query: str
+            agent
+            subqueries: list
+            source_urls: set
+            request_id: Union[str, None]
+        """
+        self.query = query
+        self.agent = agent
+        self.source_urls = source_urls
+        self.request_id = request_id
+        self.subqueries: list = []  # NOTE: kyle edit
+        self.retriever = get_retriever(self.cfg.retriever)
+        self.context = []
+    
 
 
     async def conduct_research(self):
