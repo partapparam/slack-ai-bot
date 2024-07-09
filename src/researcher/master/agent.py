@@ -35,7 +35,7 @@ class Researcher:
         self.subqueries: list = []  # NOTE: kyle edit
         self.retriever = get_retriever(self.cfg.retriever)
         self.context = []
-        self.cfg = Config(config_path)
+        self.cfg = Config()
     
 
 
@@ -43,10 +43,10 @@ class Researcher:
         """
         Runs the Researcher to conduct research
         """
-        print(f"Research started on '{self.query}")
+        print(f"Research started on {self.query}")
         # Generate Agent
         if not (self.agent and self.role):
-            self.agent, self.role = await choose_agent(query=self.query, self.cfg)
+            self.agent, self.role = await choose_agent(query=self.query, cfg=self.cfg)
         self.context = await self.get_context_by_search(self.query)
         return self
 
@@ -80,3 +80,42 @@ class Researcher:
         )
 
         return context
+    
+
+    async def process_sub_query(self, sub_query: str):
+        """Finds and scrapes urls based on the subquery and gathers context.
+        Args:
+            sub_query (str): The sub-query generated from the original query
+
+        Returns:
+            str: The context gathered from search
+        """
+        print(f'Running research for {sub_query}..."')
+
+        scraped_sites = await self.scrape_sites_by_query(sub_query)
+        # get similar content from the compressor
+        content = await self.get_similar_content_by_query(sub_query, scraped_sites)
+
+        if content:
+            print(f'LOGS: {content}')
+        else:
+            print(f'LOGS: No content was found for {sub_query}')
+        return content
+
+    async def get_new_urls(self, url_set_input):
+        """Gets the new urls from the given url set.
+        Args: url_set_input (set[str]): The url set to get the new urls from
+        Returns: list[str]: The new urls from the given url set
+        """
+
+        new_urls = []
+        for url in url_set_input:
+            if url not in self.visited_urls:
+                await stream_output(
+                    "logs", f"✅ Adding source url to research: {url}\n", self.websocket
+                )
+
+                self.visited_urls.add(url)
+                new_urls.append(url)
+
+        return new_urls
