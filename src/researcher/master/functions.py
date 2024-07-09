@@ -4,7 +4,7 @@ from researcher.llm import *
 import asyncio
 import json
 import traceback
-from researcher.master.prompts import auto_agent_instructions, generate_subtopics_prompt
+from researcher.master.prompts import create_agent_instructions, generate_subtopics_prompt
 
 
 
