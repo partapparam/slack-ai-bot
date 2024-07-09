@@ -4,6 +4,8 @@ from researcher.llm import *
 import asyncio
 import json
 import traceback
+from researcher.master.prompts import auto_agent_instructions, generate_subtopics_prompt
+
 
 
 def get_retriever(retriever):
@@ -25,13 +27,12 @@ def get_retriever(retriever):
             retriever = Duckduckgo
         case _:
             raise Exception("Retriever not found.")
-
     return retriever
 
 
 async def choose_agent(query, cfg):
     """
-    Chooses the agent automatically
+    Chooses the agent based on 
     Args:
         query: original query
         cfg: Config
