@@ -8,24 +8,21 @@ import traceback
 
 def get_retriever(retriever):
     """
-    Gets the retriever
+    Get the search retriever 
     Args:
-        retriever: retriever name
+        retriever: str
 
     Returns:
-        retriever: Retriever class
+        retriever: Retriever
 
     """
     match retriever:
         case "googleSerp":
             from researcher.retrievers import SerperSearch
-
             retriever = SerperSearch
         case "duckduckgo":
             from researcher.retrievers import Duckduckgo
-
             retriever = Duckduckgo
-
         case _:
             raise Exception("Retriever not found.")
 
@@ -279,7 +276,7 @@ async def summarize_url(query, raw_data, agent_role_prompt, cfg):
     )
     return summary
 
-async def generate_report(
+async def generate_report(  
     query,
     context,
     agent_role_prompt,
