@@ -1,6 +1,8 @@
 import asyncio
 import time
+from researcher.context.compression import ContextCompressor
 from researcher.master.functions import *
+from researcher.memory import Memory
 from researcher.config import Config
 from datetime import datetime
 from typing import Union
@@ -151,10 +153,10 @@ class Researcher:
     async def get_similar_content_by_query(self, query, pages):
         print(f'LOGS: Getting relevant content based on query: {query}...\n')
         # Summarize Raw Data
-        # context_compressor = ContextCompressor(
-        #     documents=pages, embeddings=self.memory.get_embeddings()
-        # )
+        context_compressor = ContextCompressor(
+            documents=pages, embeddings=self.memory.get_embeddings()
+        )
         # # Run Tasks
-        # return context_compressor.get_context(query, max_results=8)
+        return context_compressor.get_context(query, max_results=8)
 
     ########################################################################################
