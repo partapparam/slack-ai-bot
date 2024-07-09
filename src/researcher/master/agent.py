@@ -110,12 +110,9 @@ class Researcher:
 
         new_urls = []
         for url in url_set_input:
-            if url not in self.visited_urls:
-                await stream_output(
-                    "logs", f"✅ Adding source url to research: {url}\n", self.websocket
-                )
+            if url not in self.source_urls:
+                print(f'LOGS: Adding source url to research: {url}\n"')
 
-                self.visited_urls.add(url)
+                self.source_urls.add(url)
                 new_urls.append(url)
-
         return new_urls
