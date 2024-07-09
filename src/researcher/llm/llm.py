@@ -15,7 +15,7 @@ from researcher.master.prompts import *
 def get_provider(llm_provider):
     match llm_provider:
         case "openai":
-            from researcher.llm.openai import OpenAIProvider
+            from researcher.llm import OpenAIProvider
             llm_provider = OpenAIProvider
         case _:
             raise Exception("LLM provider not found.")
