@@ -102,6 +102,7 @@ class Researcher:
             print(f'LOGS: No content was found for {sub_query}')
         return content
 
+
     async def get_new_urls(self, url_set_input):
         """Gets the new urls from the given url set.
         Args: url_set_input (set[str]): The url set to get the new urls from
@@ -112,7 +113,36 @@ class Researcher:
         for url in url_set_input:
             if url not in self.source_urls:
                 print(f'LOGS: Adding source url to research: {url}\n"')
-
                 self.source_urls.add(url)
                 new_urls.append(url)
         return new_urls
+    
+
+    async def scrape_sites_by_query(self, sub_query):
+        """
+        Searches and scrapes a sub-query
+        Args:
+            sub_query:
+
+        Returns:
+            Summary
+        """
+        # Get Urls 
+        retriever = self.retriever(sub_query)
+        search_results = retriever.search(
+            max_results=self.cfg.max_search_results_per_query
+        )
+        new_search_urls = await self.get_new_urls(
+            [url.get("href") for url in search_results]
+        )
+
+        # Scrape Urls
+        print(f'LOGS: Scraping URLS {new_search_urls}...\n')
+        sources = scrape_urls(new_search_urls, sub_query, self.cfg)
+
+        scraped_content_results = [
+            {"url": source.url, "raw_content": source.parsed_text}
+            for source in sources
+        ]
+
+        return scraped_content_results
