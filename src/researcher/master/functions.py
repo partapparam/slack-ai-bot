@@ -6,37 +6,34 @@ import json
 import traceback
 
 
+
 def get_retriever(retriever):
     """
-    Gets the retriever
+    Get the search retriever 
     Args:
-        retriever: retriever name
+        retriever: str
 
     Returns:
-        retriever: Retriever class
+        retriever: Retriever
 
     """
     match retriever:
         case "googleSerp":
             from researcher.retrievers import SerperSearch
-
             retriever = SerperSearch
         case "duckduckgo":
             from researcher.retrievers import Duckduckgo
-
             retriever = Duckduckgo
-
         case _:
             raise Exception("Retriever not found.")
-
     return retriever
 
 
 async def choose_agent(query, cfg):
     """
-    Chooses the agent automatically
+    Chooses the agent based on query
     Args:
-        query: original query
+        query: str
         cfg: Config
 
     Returns:
@@ -47,14 +44,14 @@ async def choose_agent(query, cfg):
         response = await create_chat_completion(
             model=cfg.smart_llm_model,
             messages=[
-                {"role": "system", "content": f"{auto_agent_instructions()}"},
+                {"role": "system", "content": f"{create_agent_instructions()}"},
                 {"role": "user", "content": f"task: {query}"},
             ],
-            temperature=0,
+            temperature=cfg.temperature,
             llm_provider=cfg.llm_provider,
         )
         agent_dict = json.loads(response)
-        return agent_dict["server"], agent_dict["agent_role_prompt"]
+        return agent_dict["agent"], agent_dict["agent_role_prompt"]
     except Exception as e:
         return (
             "Default Agent",
@@ -85,7 +82,7 @@ async def get_sub_query(
             {"role": "system", "content": f"{agent_role_prompt}"},
             {"role": "user", "content": f"task: {prompt}"},
         ],
-        temperature=0,
+        temperature=cfg.temperature,
         llm_provider=cfg.llm_provider,
     )
     return response
@@ -109,7 +106,6 @@ async def get_sub_queries(
         sub_queries: List of sub queries
 
     """
-
     # assign the original query to the parent query
     parent_query = query
 
@@ -132,8 +128,8 @@ async def get_sub_queries(
             list_of_sub_queries.append(cleaned_sub_query)
 
     except Exception as e:
-        print(f"{Fore.RED}Error in get_sub_queries: {e}{Style.RESET_ALL}")
-        print(f"Traceback: {traceback.format_exc()}{Style.RESET_ALL}")
+        print(f"LOGS: Error in get_sub_queries: {e}")
+        print(f"Traceback: {traceback.format_exc()}")
         return list_of_sub_queries
 
     return list_of_sub_queries
@@ -279,7 +275,7 @@ async def summarize_url(query, raw_data, agent_role_prompt, cfg):
     )
     return summary
 
-async def generate_report(
+async def generate_report(  
     query,
     context,
     agent_role_prompt,
