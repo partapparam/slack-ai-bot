@@ -4,7 +4,6 @@ from researcher.llm import *
 import asyncio
 import json
 import traceback
-from researcher.master.prompts import *
 
 
 
@@ -48,7 +47,7 @@ async def choose_agent(query, cfg):
                 {"role": "system", "content": f"{create_agent_instructions()}"},
                 {"role": "user", "content": f"task: {query}"},
             ],
-            temperature=0,
+            temperature=cfg.temperature,
             llm_provider=cfg.llm_provider,
         )
         agent_dict = json.loads(response)
@@ -83,7 +82,7 @@ async def get_sub_query(
             {"role": "system", "content": f"{agent_role_prompt}"},
             {"role": "user", "content": f"task: {prompt}"},
         ],
-        temperature=0,
+        temperature=cfg.temperature,
         llm_provider=cfg.llm_provider,
     )
     return response
@@ -107,7 +106,6 @@ async def get_sub_queries(
         sub_queries: List of sub queries
 
     """
-
     # assign the original query to the parent query
     parent_query = query
 
@@ -130,8 +128,8 @@ async def get_sub_queries(
             list_of_sub_queries.append(cleaned_sub_query)
 
     except Exception as e:
-        print(f"{Fore.RED}Error in get_sub_queries: {e}{Style.RESET_ALL}")
-        print(f"Traceback: {traceback.format_exc()}{Style.RESET_ALL}")
+        print(f"LOGS: Error in get_sub_queries: {e}")
+        print(f"Traceback: {traceback.format_exc()}")
         return list_of_sub_queries
 
     return list_of_sub_queries
