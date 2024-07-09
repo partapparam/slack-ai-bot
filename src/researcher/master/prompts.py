@@ -1,4 +1,3 @@
-
 def generate_sub_query_prompt(
     queries: list[str],
     parent_query: str,

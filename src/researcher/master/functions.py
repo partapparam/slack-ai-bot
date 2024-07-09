@@ -4,7 +4,7 @@ from researcher.llm import *
 import asyncio
 import json
 import traceback
-from researcher.master.prompts import create_agent_instructions, generate_subtopics_prompt
+from researcher.master.prompts import *
 
 
 
@@ -32,9 +32,9 @@ def get_retriever(retriever):
 
 async def choose_agent(query, cfg):
     """
-    Chooses the agent based on 
+    Chooses the agent based on query
     Args:
-        query: original query
+        query: str
         cfg: Config
 
     Returns:
@@ -45,14 +45,14 @@ async def choose_agent(query, cfg):
         response = await create_chat_completion(
             model=cfg.smart_llm_model,
             messages=[
-                {"role": "system", "content": f"{auto_agent_instructions()}"},
+                {"role": "system", "content": f"{create_agent_instructions()}"},
                 {"role": "user", "content": f"task: {query}"},
             ],
             temperature=0,
             llm_provider=cfg.llm_provider,
         )
         agent_dict = json.loads(response)
-        return agent_dict["server"], agent_dict["agent_role_prompt"]
+        return agent_dict["agent"], agent_dict["agent_role_prompt"]
     except Exception as e:
         return (
             "Default Agent",
