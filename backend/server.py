@@ -76,3 +76,13 @@ app = App(
     oauth_settings=oauth_settings
 )
 
+
+with open('./manifest.yaml', mode='r') as file:
+    config = yaml.safe_load(file)
+    
+scopes = config['oauth_config']['scopes']['bot']
+# Build https://slack.com/oauth/v2/authorize with sufficient query parameters
+authorize_url_generator = AuthorizeUrlGenerator(
+    client_id=SLACK_CLIENT_ID,
+    scopes=scopes,
+)
