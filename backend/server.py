@@ -77,7 +77,7 @@ app = App(
 )
 
 
-with open('./manifest.yaml', mode='r') as file:
+with open('../manifest.yaml', mode='r') as file:
     config = yaml.safe_load(file)
     
 scopes = config['oauth_config']['scopes']['bot']
@@ -86,3 +86,11 @@ authorize_url_generator = AuthorizeUrlGenerator(
     client_id=SLACK_CLIENT_ID,
     scopes=scopes,
 )
+
+
+@app.middleware  # or app.use(log_request)
+def log_request(logger, body, next):
+    logger.debug(body)
+    print('middleware')
+    return next()
+
