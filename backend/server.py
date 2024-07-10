@@ -1,10 +1,29 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Union, List
-from gpt_researcher.master.agent import GPTResearcher
-from gpt_researcher.master.source import Source
+from researcher.master.agent import Researcher
 import json
 import datetime
+from slack_bolt import App
+from slack_bolt import (Say, Respond, Ack)
+from slack_bolt.oauth.oauth_settings import OAuthSettings
+from slack_sdk.oauth.installation_store import FileInstallationStore, Installation
+from slack_sdk.oauth import AuthorizeUrlGenerator
+from slack_sdk.oauth.state_store import FileOAuthStateStore
+from typing import (Dict, Any)
+from slack_sdk.web import WebClient, SlackResponse
+from flask import Flask, request, make_response
+import json
+from slack_bolt.adapter.flask import SlackRequestHandler
+from dotenv import load_dotenv
+load_dotenv()
+import logging
+logging.basicConfig(level=logging.DEBUG)
+import os
+import json
+import yaml
+import html
+
 
 app = FastAPI()
 
@@ -37,3 +56,5 @@ class ResearchResult(BaseModel):
     research_start_timestamp: str
     research_end_timestamp: str
     results: List[dict]
+
+# 
