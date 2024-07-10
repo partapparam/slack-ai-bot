@@ -1,6 +1,5 @@
 slack-bolt
 slack-sdk
-openai
 tiktoken
 # https://github.com/Yelp/elastalert/issues/2306
 urllib3<2
@@ -8,9 +7,36 @@ python-dotenv
 flask
 pyyaml
 chromadb
-langchain
 requests
 tabulate
 unstructured
 PyMuPDF
 pymongo[srv]
+# dependencies
+beautifulsoup4
+colorama
+duckduckgo_search
+md2pdf
+playwright
+openai
+pyyaml
+uvicorn
+pydantic
+python-multipart
+markdown
+langchain
+arxiv
+PyMuPDF
+requests
+jinja2
+aiofiles
+newspaper3k
+langchain_community
+SQLAlchemy
+langchain-openai
+mistune
+python-docx
+htmldocx
+langchain-google-genai
+lxml[html_clean]
+pytest
