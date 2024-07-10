@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import Union, List
 from researcher.master.agent import Researcher
@@ -71,7 +71,8 @@ app = App(
     signing_secret=SLACK_SIGNING_SECRET,
     oauth_settings=oauth_settings
 )
-
+# set up to work with FastAPI handler
+app_handler = SlackRequestHandler(app)
 
 with open('../manifest.yaml', mode='r') as file:
     config = yaml.safe_load(file)
@@ -106,11 +107,10 @@ def handle_modify_bot(ack: Ack, body: Dict[str, Any], respond: Respond, context,
     trigger_id = body['trigger_id']
     print(channel_id, trigger_id)
      # Load modify_bot_template.json payload
-    with open(f'./src/templates/file_upload_template.json', 'r') as f:
+    with open(f'../src/templates/file_upload_template.json', 'r') as f:
         view = json.load(f)
     respond(f"{command['text']}")
     client.views_open(trigger_id=trigger_id, view=view)
-    breakpoint()
 
 
 api = FastAPI()
