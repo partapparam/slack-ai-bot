@@ -20,3 +20,20 @@ class Body(BaseModel):
     query: str
     request_id: Union[str, None] = None
     max_resources: Union[int, None] = None
+
+class ResearchResult(BaseModel):
+    """Represents the result of a research job conducted by a GPTResearcher instance.
+
+    Attributes:
+        request_id(Union[str, None]): The unique identifier for the research request.
+        query (str): The original query string.
+        research_start_timestamp (datetime): The timestamp when the research started, in UTC.
+        research_end_timestamp (datetime): The timestamp when the research ended, in UTC.
+        results (List[dict]): A list of dictionaries, each representing a source used in the research. Each dict should contain keys corresponding to the basic JSON representation of a source model.
+    """
+
+    request_id: Union[str, None] = None
+    query: str
+    research_start_timestamp: str
+    research_end_timestamp: str
+    results: List[dict]
