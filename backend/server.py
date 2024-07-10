@@ -94,3 +94,8 @@ def log_request(logger, body, next):
     print('middleware')
     return next()
 
+@app.event("app_mention")
+def event_test(body, say, logger):
+    logger.info(body)
+    say("What's up?")
+
