@@ -23,9 +23,6 @@ import json
 import yaml
 import html
 
-
-app = FastAPI()
-
 class Body(BaseModel):
     """Represents the body of a POST request
 
@@ -115,3 +112,9 @@ def handle_modify_bot(ack: Ack, body: Dict[str, Any], respond: Respond, context,
     client.views_open(trigger_id=trigger_id, view=view)
     breakpoint()
 
+
+api = FastAPI()
+
+@api.post("/slack/events")
+async def endpoint(req: Request):
+    return await app_handler.handle(req)
