@@ -8,7 +8,6 @@ class Config:
 
     def __init__(self):
         """Initialize the config class."""
-        self.config_file = os.getenv("CONFIG_FILE")
         self.retriever = os.getenv("SEARCH_RETRIEVER", "googleSerp")
         self.embedding_provider = os.getenv("EMBEDDING_PROVIDER", "openai")
         self.llm_provider = os.getenv("LLM_PROVIDER", "openai")
