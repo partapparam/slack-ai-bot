@@ -57,4 +57,22 @@ class ResearchResult(BaseModel):
     research_end_timestamp: str
     results: List[dict]
 
-# 
+
+TOKEN = os.getenv('TOKEN')
+AUTH = os.getenv('AUTH')
+URL = os.getenv(key='URL')
+SLACK_BOT_TOKEN = os.getenv(key='SLACK_BOT_TOKEN')
+SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
+SLACK_CLIENT_SECRET = os.getenv(key='SLACK_CLIENT_SECRET')
+SLACK_CLIENT_ID = os.getenv(key='SLACK_CLIENT_ID')
+oauth_settings = OAuthSettings(
+    client_id=SLACK_CLIENT_ID,
+    client_secret=SLACK_CLIENT_SECRET,
+    install_path="/slack/install",
+)
+app = App(
+    token=SLACK_BOT_TOKEN,
+    signing_secret=SLACK_SIGNING_SECRET,
+    oauth_settings=oauth_settings
+)
+
