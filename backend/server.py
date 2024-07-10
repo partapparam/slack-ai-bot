@@ -12,9 +12,8 @@ from slack_sdk.oauth import AuthorizeUrlGenerator
 from slack_sdk.oauth.state_store import FileOAuthStateStore
 from typing import (Dict, Any)
 from slack_sdk.web import WebClient, SlackResponse
-from flask import Flask, request, make_response
 import json
-from slack_bolt.adapter.flask import SlackRequestHandler
+from slack_bolt.adapter.fastapi import SlackRequestHandler
 from dotenv import load_dotenv
 load_dotenv()
 import logging
