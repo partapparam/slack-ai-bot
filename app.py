@@ -1,5 +1,3 @@
-import logging
-logging.basicConfig(level=logging.DEBUG)
 from slack_bolt import App
 from slack_bolt import (Say, Respond, Ack)
 from slack_bolt.oauth.oauth_settings import OAuthSettings
@@ -13,6 +11,8 @@ import json
 from slack_bolt.adapter.flask import SlackRequestHandler
 from dotenv import load_dotenv
 load_dotenv()
+import logging
+logging.basicConfig(level=logging.DEBUG)
 import os
 import json
 import yaml

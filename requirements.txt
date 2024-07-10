@@ -4,7 +4,6 @@ tiktoken
 # https://github.com/Yelp/elastalert/issues/2306
 urllib3<2
 python-dotenv
-flask
 pyyaml
 chromadb
 requests
@@ -40,3 +39,5 @@ htmldocx
 langchain-google-genai
 lxml[html_clean]
 pytest
+fastapi
+uvicorn 
