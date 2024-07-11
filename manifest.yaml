@@ -48,10 +48,6 @@ settings:
     bot_events:
       - app_home_opened
       - app_mention
-  interactivity:
-    is_enabled: true
-    request_url: https://worthy-slightly-cod.ngrok-free.app/interactive-endpoint
-    message_menu_options_url: https://worthy-slightly-cod.ngrok-free.app/options-load-endpoint
-  org_deploy_enabled: true
+  org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: true

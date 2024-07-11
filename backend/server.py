@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import Union, List
-from src.researcher.master import Researcher
+# from src.researcher.master import Researcher
 import json
 import datetime
 from slack_bolt import App
@@ -74,7 +74,7 @@ app = App(
 # set up to work with FastAPI handler
 app_handler = SlackRequestHandler(app)
 
-with open('../manifest.yaml', mode='r') as file:
+with open('./manifest.yaml', mode='r') as file:
     config = yaml.safe_load(file)
     
 scopes = config['oauth_config']['scopes']['bot']
@@ -116,8 +116,8 @@ def handle_modify_bot(ack: Ack, body: Dict[str, Any], respond: Respond, context,
 api = FastAPI()
 
 @api.post("/slack/events")
-async def endpoint(req: Request):
-    return await app_handler.handle(req)
+def endpoint(req: Request):
+    return app_handler.handle(req)
 
 
 ###########
