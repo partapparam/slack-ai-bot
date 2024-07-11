@@ -1,21 +1,15 @@
 display_information:
-  name: Natalie.ai
+  name: natalie.ai
 features:
-  app_home:
-    home_tab_enabled: true
-    messages_tab_enabled: false
-    messages_tab_read_only_enabled: false
   bot_user:
-    display_name: Natalie.ai
-    always_online: true
+    display_name: natalie.ai
+    always_online: false
   slash_commands:
     - command: /modify
       url: https://worthy-slightly-cod.ngrok-free.app/slack/events
-      description: Modify the AI bot Settings
-      should_escape: true
+      description: Update your tokens
+      should_escape: false
 oauth_config:
-  redirect_urls:
-    - https://worthy-slightly-cod.ngrok-free.app/slack/oauth_redirect
   scopes:
     bot:
       - app_mentions:read
@@ -46,12 +40,7 @@ settings:
   event_subscriptions:
     request_url: https://worthy-slightly-cod.ngrok-free.app/slack/events
     bot_events:
-      - app_home_opened
       - app_mention
-  interactivity:
-    is_enabled: true
-    request_url: https://worthy-slightly-cod.ngrok-free.app/interactive-endpoint
-    message_menu_options_url: https://worthy-slightly-cod.ngrok-free.app/options-load-endpoint
-  org_deploy_enabled: true
+  org_deploy_enabled: false
   socket_mode_enabled: false
-  token_rotation_enabled: true
+  token_rotation_enabled: false
