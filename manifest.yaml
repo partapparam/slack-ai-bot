@@ -37,6 +37,10 @@ oauth_config:
       - users.profile:read
       - channels:manage
 settings:
+  event_subscriptions:
+    request_url: https://worthy-slightly-cod.ngrok-free.app/slack/events
+    bot_events:
+      - app_mention
   org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: false

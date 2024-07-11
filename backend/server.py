@@ -108,8 +108,8 @@ def handle_modify_bot(ack: Ack, body: Dict[str, Any], respond: Respond, context,
 api = FastAPI()
 
 @api.post("/slack/events")
-def endpoint(req: Request):
-    return app_handler.handle(req)
+async def endpoint(req: Request):
+    return await app_handler.handle(req)
 
 
 ###########
