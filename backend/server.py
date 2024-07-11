@@ -62,7 +62,7 @@ SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
 SLACK_CLIENT_SECRET = os.getenv(key='SLACK_CLIENT_SECRET')
 SLACK_CLIENT_ID = os.getenv(key='SLACK_CLIENT_ID')
 
-app = App()
+app = App(token=SLACK_BOT_TOKEN)
 # set up to work with FastAPI handler
 app_handler = SlackRequestHandler(app)
 
