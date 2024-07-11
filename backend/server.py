@@ -6,10 +6,6 @@ import json
 import datetime
 from slack_bolt import App
 from slack_bolt import (Say, Respond, Ack)
-from slack_bolt.oauth.oauth_settings import OAuthSettings
-from slack_sdk.oauth.installation_store import FileInstallationStore, Installation
-from slack_sdk.oauth import AuthorizeUrlGenerator
-from slack_sdk.oauth.state_store import FileOAuthStateStore
 from typing import (Dict, Any)
 from slack_sdk.web import WebClient, SlackResponse
 import json
@@ -19,9 +15,6 @@ load_dotenv()
 import logging
 logging.basicConfig(level=logging.DEBUG)
 import os
-import json
-import yaml
-import html
 
 class Body(BaseModel):
     """Represents the body of a POST request
@@ -59,19 +52,19 @@ AUTH = os.getenv('AUTH')
 URL = os.getenv(key='URL')
 SLACK_BOT_TOKEN = os.getenv(key='SLACK_BOT_TOKEN')
 SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
-SLACK_CLIENT_SECRET = os.getenv(key='SLACK_CLIENT_SECRET')
-SLACK_CLIENT_ID = os.getenv(key='SLACK_CLIENT_ID')
+# SLACK_CLIENT_SECRET = os.getenv(key='SLACK_CLIENT_SECRET')
+# SLACK_CLIENT_ID = os.getenv(key='SLACK_CLIENT_ID')
 
 app = App(token=SLACK_BOT_TOKEN,
           signing_secret=SLACK_SIGNING_SECRET)
 # set up to work with FastAPI handler
 app_handler = SlackRequestHandler(app)
 
-@app.middleware  # or app.use(log_request)
-def log_request(logger, body, next):
-    logger.debug(body)
-    print('middleware')
-    return next()
+# @app.middleware  # or app.use(log_request)
+# def log_request(logger, body, next):
+#     logger.debug(body)
+#     print('middleware')
+#     return next()
 
 @app.event("app_mention")
 def event_test(body, say, logger):
