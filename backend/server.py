@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import Union, List
-from researcher.master.agent import Researcher
+from src.researcher.master import Researcher
 import json
 import datetime
 from slack_bolt import App
@@ -118,3 +118,9 @@ api = FastAPI()
 @api.post("/slack/events")
 async def endpoint(req: Request):
     return await app_handler.handle(req)
+
+
+###########
+###########
+# TODO: For reference
+# https://github.com/slackapi/bolt-python/tree/main/examples/fastapi
