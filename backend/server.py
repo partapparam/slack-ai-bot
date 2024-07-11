@@ -62,20 +62,10 @@ SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
 SLACK_CLIENT_SECRET = os.getenv(key='SLACK_CLIENT_SECRET')
 SLACK_CLIENT_ID = os.getenv(key='SLACK_CLIENT_ID')
 
-app = App(token=SLACK_BOT_TOKEN)
+app = App(token=SLACK_BOT_TOKEN,
+          signing_secret=SLACK_SIGNING_SECRET)
 # set up to work with FastAPI handler
 app_handler = SlackRequestHandler(app)
-
-with open('./manifest.yaml', mode='r') as file:
-    config = yaml.safe_load(file)
-    
-scopes = config['oauth_config']['scopes']['bot']
-# Build https://slack.com/oauth/v2/authorize with sufficient query parameters
-authorize_url_generator = AuthorizeUrlGenerator(
-    client_id=SLACK_CLIENT_ID,
-    scopes=scopes,
-)
-
 
 @app.middleware  # or app.use(log_request)
 def log_request(logger, body, next):
