@@ -2,13 +2,11 @@ from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import Union, List
 # from src.researcher.master import Researcher
-import json
-import datetime
+# import datetime
 from slack_bolt import App
 from slack_bolt import (Say, Respond, Ack)
 from typing import (Dict, Any)
-from slack_sdk.web import WebClient, SlackResponse
-import json
+# from slack_sdk.web import WebClient, SlackResponse
 from slack_bolt.adapter.fastapi import SlackRequestHandler
 from dotenv import load_dotenv
 load_dotenv()
@@ -46,10 +44,6 @@ class ResearchResult(BaseModel):
     research_end_timestamp: str
     results: List[dict]
 
-
-TOKEN = os.getenv('TOKEN')
-AUTH = os.getenv('AUTH')
-URL = os.getenv(key='URL')
 SLACK_BOT_TOKEN = os.getenv(key='SLACK_BOT_TOKEN')
 SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
 # SLACK_CLIENT_SECRET = os.getenv(key='SLACK_CLIENT_SECRET')
