@@ -9,10 +9,11 @@ from typing import (Dict, Any)
 # from slack_sdk.web import WebClient, SlackResponse
 from slack_bolt.adapter.fastapi import SlackRequestHandler
 from dotenv import load_dotenv
-load_dotenv()
+import os
 import logging
 logging.basicConfig(level=logging.DEBUG)
-import os
+load_dotenv()
+
 
 class Body(BaseModel):
     """Represents the body of a POST request
