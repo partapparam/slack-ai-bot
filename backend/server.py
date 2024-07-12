@@ -1,8 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import Union, List
-# from src.researcher.master import Researcher
-# import datetime
+from src.researcher.master import Researcher
 from slack_bolt import App
 from slack_bolt import (Say, Respond, Ack)
 from typing import (Dict, Any)
