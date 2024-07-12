@@ -6,10 +6,10 @@ from typing import Union, List
 from slack_bolt import App
 from slack_bolt import (Say, Respond, Ack)
 from typing import (Dict, Any)
-# from slack_sdk.web import WebClient, SlackResponse
 from slack_bolt.adapter.fastapi import SlackRequestHandler
 from dotenv import load_dotenv
 import os
+import json
 import logging
 logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
@@ -47,19 +47,15 @@ class ResearchResult(BaseModel):
 
 SLACK_BOT_TOKEN = os.getenv(key='SLACK_BOT_TOKEN')
 SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
-# SLACK_CLIENT_SECRET = os.getenv(key='SLACK_CLIENT_SECRET')
-# SLACK_CLIENT_ID = os.getenv(key='SLACK_CLIENT_ID')
-
 app = App(token=SLACK_BOT_TOKEN,
           signing_secret=SLACK_SIGNING_SECRET)
-# set up to work with FastAPI handler
 app_handler = SlackRequestHandler(app)
 
-# @app.middleware  # or app.use(log_request)
-# def log_request(logger, body, next):
-#     logger.debug(body)
-#     print('middleware')
-#     return next()
+@app.middleware  # or app.use(log_request)
+def log_request(logger, body, next):
+    logger.debug(body)
+    print('middleware')
+    return next()
 
 @app.event("app_mention")
 def event_test(body, say, logger):
@@ -88,9 +84,3 @@ api = FastAPI()
 @api.post("/slack/events")
 async def endpoint(req: Request):
     return await app_handler.handle(req)
-
-
-###########
-###########
-# TODO: For reference
-# https://github.com/slackapi/bolt-python/tree/main/examples/fastapi
