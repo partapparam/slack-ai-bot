@@ -1,4 +1,3 @@
-from .retriever import SearchAPIRetriever
 from langchain.retrievers import (
     ContextualCompressionRetriever,
 )
@@ -7,6 +6,7 @@ from langchain.retrievers.document_compressors import (
     EmbeddingsFilter,
 )
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from .retriever import SearchAPIRetriever
 
 
 class ContextCompressor:

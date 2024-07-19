@@ -1,6 +1,6 @@
-from researcher.master.prompts import *
-from researcher.scraper import Scraper
-from researcher.llm.llm import *
+from src.researcher.master.prompts import *
+from src.researcher.scraper import Scraper
+from src.researcher.llm.llm import *
 import asyncio
 import json
 import traceback

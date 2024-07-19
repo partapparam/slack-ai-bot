@@ -1,9 +1,9 @@
 import asyncio
 import time
-from researcher.context.compression import ContextCompressor
-from researcher.master.functions import *
-from researcher.memory import Memory
-from researcher.config import Config
+from src.researcher.context.compression import ContextCompressor
+from src.researcher.master.functions import *
+from src.researcher.memory import Memory
+from src.researcher.config import Config
 from datetime import datetime
 from typing import Union
 
@@ -34,10 +34,10 @@ class Researcher:
         self.role = role
         self.source_urls = source_urls
         self.request_id = request_id
-        self.subqueries: list = []  # NOTE: kyle edit
+        self.subqueries: list = [] 
+        self.cfg = Config()
         self.retriever = get_retriever(self.cfg.retriever)
         self.context = []
-        self.cfg = Config()
     
 
 
@@ -78,7 +78,8 @@ class Researcher:
 
         # Using asyncio.gather to process the sub_queries asynchronously
         context = await asyncio.gather(
-            *[self.process_sub_query(sub_query) for sub_query in self.sub_queries]
+            *[self.process_sub_query(sub_query) 
+              for sub_query in self.subqueries]
         )
 
         return context

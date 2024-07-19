@@ -9,7 +9,7 @@ from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
-from researcher.master.prompts import *
+from src.researcher.master.prompts import *
 
 def get_provider(llm_provider):
     match llm_provider:

@@ -50,19 +50,24 @@ app = App(token=SLACK_BOT_TOKEN,
           signing_secret=SLACK_SIGNING_SECRET)
 app_handler = SlackRequestHandler(app)
 
-@app.middleware  # or app.use(log_request)
-def log_request(logger, body, next):
-    logger.debug(body)
-    print('middleware')
-    return next()
+# @app.middleware  # or app.use(log_request)
+# def log_request(logger, body, next):
+#     logger.debug(body)
+#     print('middleware')
+#     return next()
 
 @app.event("app_mention")
-def event_test(body, say, logger):
-    logger.info(body)
+async def app_mentioned(body, say, logger):
     say("What's up?")
+    researcher = Researcher()
+    researcher.query = 'who is lebron james'
+    await researcher.conduct_research()
+    return
+
 
 api = FastAPI()
 
 @api.post("/slack/events")
 async def endpoint(req: Request):
-    return await app_handler.handle(req)
+    await app_handler.handle(req)
+    return 

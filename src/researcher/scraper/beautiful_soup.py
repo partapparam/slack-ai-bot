@@ -1,7 +1,6 @@
-from bs4 import BeautifulSoup
+import bs4 as BeautifulSoup
 
-
-class BeautifulSoupScraper:
+class Scraper:
 
     def __init__(self, link, session=None):
         self.link = link
