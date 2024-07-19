@@ -78,7 +78,8 @@ class Researcher:
 
         # Using asyncio.gather to process the sub_queries asynchronously
         context = await asyncio.gather(
-            *[self.process_sub_query(sub_query) for sub_query in self.sub_queries]
+            *[self.process_sub_query(sub_query) 
+              for sub_query in self.subqueries]
         )
 
         return context
