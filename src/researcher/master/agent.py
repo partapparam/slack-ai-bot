@@ -1,9 +1,9 @@
 import asyncio
 import time
-from researcher.context.compression import ContextCompressor
-from researcher.master.functions import *
-from researcher.memory import Memory
-from researcher.config import Config
+from src.researcher.context.compression import ContextCompressor
+from src.researcher.master.functions import *
+from src.researcher.memory import Memory
+from src.researcher.config import Config
 from datetime import datetime
 from typing import Union
 
