@@ -41,3 +41,4 @@ lxml[html_clean]
 pytest
 fastapi
 uvicorn 
+bs4

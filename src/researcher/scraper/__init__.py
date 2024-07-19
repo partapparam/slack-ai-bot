@@ -1,1 +1,1 @@
-from .beautiful_soup import BeautifulSoupScraper
+from .beautiful_soup.beautiful_soup import BeautifulSoupScraper
