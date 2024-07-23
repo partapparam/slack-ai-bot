@@ -1,8 +1,7 @@
-from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import Union, List
-from src.researcher.master import Researcher
 from slack_bolt import App
+from fastapi import FastAPI, HTTPException, Request
 from slack_bolt import (Say, Respond, Ack)
 from typing import (Dict, Any)
 from slack_bolt.adapter.fastapi import SlackRequestHandler
@@ -10,7 +9,8 @@ from dotenv import load_dotenv
 import os
 import json
 import logging
-logging.basicConfig(level=logging.DEBUG)
+from src.researcher.master import Researcher
+# logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
 
 
@@ -59,15 +59,16 @@ app_handler = SlackRequestHandler(app)
 @app.event("app_mention")
 async def app_mentioned(body, say, logger):
     say("What's up?")
-    researcher = Researcher()
+    researcher = Researcher(query='who is lebron  james')
     researcher.query = 'who is lebron james'
     await researcher.conduct_research()
-    return
+    say('this is done')
 
 
 api = FastAPI()
 
 @api.post("/slack/events")
 async def endpoint(req: Request):
-    await app_handler.handle(req)
-    return 
+    results = await app_handler.handle(req)
+    print(results)
+    return
