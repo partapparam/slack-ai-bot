@@ -91,9 +91,7 @@ async def get_sub_query(
 async def get_sub_queries(
     query: str,
     agent_role_prompt: str,
-    cfg,
-    parent_query: str,
-    report_type: str,
+    cfg
 ):
     """
     Gets the sub queries
