@@ -19,10 +19,10 @@ def get_retriever(retriever):
     """
     match retriever:
         case "googleSerp":
-            from researcher.retrievers import SerperSearch
+            from src.researcher.retrievers import SerperSearch
             retriever = SerperSearch
         case "duckduckgo":
-            from researcher.retrievers import Duckduckgo
+            from src.researcher.retrievers import Duckduckgo
             retriever = Duckduckgo
         case _:
             raise Exception("Retriever not found.")
@@ -91,9 +91,7 @@ async def get_sub_query(
 async def get_sub_queries(
     query: str,
     agent_role_prompt: str,
-    cfg,
-    parent_query: str,
-    report_type: str,
+    cfg
 ):
     """
     Gets the sub queries
@@ -153,8 +151,8 @@ def normalize_query(query: str) -> str:
         return query
 
     except Exception as e:
-        print(f"{Fore.RED}Error in normalize_query: {e}{Style.RESET_ALL}")
-        print(f"Traceback: {traceback.format_exc()}{Style.RESET_ALL}")
+        print(f"Error in normalize_query: {e}")
+        print(f"Traceback: {traceback.format_exc()}")
         return query
 
 
@@ -182,8 +180,8 @@ def scrape_urls(urls, query, cfg=None):
         # unpack the generator
         sources = scraper.run()
     except Exception as e:
-        print(f"{Fore.RED}Error in scrape_urls: {e}{Style.RESET_ALL}")
-        print(f"Traceback: {traceback.format_exc()}{Style.RESET_ALL}")
+        print(f"Error in scrape_urls: {e}")
+        print(f"Traceback: {traceback.format_exc()}")
     return sources
 
 async def summarize(query, content, agent_role_prompt, cfg, websocket=None):
@@ -203,9 +201,9 @@ async def summarize(query, content, agent_role_prompt, cfg, websocket=None):
     # Function to handle each summarization task for a chunk
     async def handle_task(url, chunk):
         summary = await summarize_url(query, chunk, agent_role_prompt, cfg)
-        if summary:
-            await stream_output("logs", f"🌐 Summarizing url: {url}", websocket)
-            await stream_output("logs", f"📃 {summary}", websocket)
+        # if summary:
+        #     await stream_output("logs", f"🌐 Summarizing url: {url}", websocket)
+        #     await stream_output("logs", f"📃 {summary}", websocket)
         return url, summary
 
     # Function to split raw content into chunks of 10,000 words
@@ -261,7 +259,7 @@ async def summarize_url(query, raw_data, agent_role_prompt, cfg):
             llm_provider=cfg.llm_provider,
         )
     except Exception as e:
-        print(f"{Fore.RED}Error in summarize: {e}{Style.RESET_ALL}")
+        print(f"Error in summarize: {e}")
 
     print(
         f"""
@@ -320,7 +318,7 @@ async def generate_report(
             max_tokens=cfg.smart_token_limit,
         )
     except Exception as e:
-        print(f"{Fore.RED}Error in generate_report: {e}{Style.RESET_ALL}")
+        print(f"Error in generate_report: {e}")
 
     return report
 
