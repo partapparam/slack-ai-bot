@@ -19,10 +19,10 @@ def get_retriever(retriever):
     """
     match retriever:
         case "googleSerp":
-            from researcher.retrievers import SerperSearch
+            from src.researcher.retrievers import SerperSearch
             retriever = SerperSearch
         case "duckduckgo":
-            from researcher.retrievers import Duckduckgo
+            from src.researcher.retrievers import Duckduckgo
             retriever = Duckduckgo
         case _:
             raise Exception("Retriever not found.")
