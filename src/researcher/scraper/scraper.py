@@ -3,7 +3,7 @@ from functools import partial
 
 import requests
 
-from src.researcher.scraper.beautiful_soup.beautiful_soup import (
+from src.researcher.scraper.beautiful_soup import (
     BeautifulSoupScraper,
 )
 
