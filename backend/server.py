@@ -59,9 +59,11 @@ app_handler = SlackRequestHandler(app)
 @app.event("app_mention")
 async def app_mentioned(body, say, logger):
     say("What's up?")
+    print(body)
     researcher = Researcher(query='who is lebron  james')
     researcher.query = 'who is lebron james'
-    await researcher.conduct_research()
+    results = await researcher.conduct_research()
+    print(results)
     say('this is done')
 
 
