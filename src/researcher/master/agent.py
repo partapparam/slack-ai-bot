@@ -16,8 +16,8 @@ class Researcher:
             query: str,
             agent = None,
             role = None,
-            subqueries: list = [],
-            source_urls: list[str] = [],
+            subqueries: list = list(),
+            source_urls: set[str] = set(),
             request_id: Union[str, None] = None
             ):
         """
