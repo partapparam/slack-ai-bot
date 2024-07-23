@@ -11,14 +11,15 @@ class Researcher:
     """
         Our Research Agent
     """
-    def __init(
+    def __init__(
             self,
             query: str,
             agent = None,
             role = None,
             subqueries: list = [],
             source_urls: list[str] = [],
-            request_id: Union[str, None] = None):
+            request_id: Union[str, None] = None
+            ):
         """
         Initialize the Researcher class.
         Args:
@@ -37,8 +38,7 @@ class Researcher:
         self.subqueries: list = [] 
         self.cfg = Config()
         self.retriever = get_retriever(self.cfg.retriever)
-        self.context = []
-    
+        self.context = []   
 
 
     async def conduct_research(self):
