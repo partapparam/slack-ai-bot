@@ -35,11 +35,10 @@ class Researcher:
         self.role = role
         self.source_urls = source_urls
         self.request_id = request_id
-        self.subqueries: list = [] 
+        self.subqueries: set = set()
         self.cfg = Config()
         self.retriever = get_retriever(self.cfg.retriever)
-        self.context = []   
-
+        self.context = list()
 
     async def conduct_research(self):
         """
