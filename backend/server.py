@@ -12,6 +12,8 @@ import logging
 from src.researcher.master import Researcher
 # logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
+from slack_bolt.async_app import AsyncApp
+from slack_bolt.adapter.fastapi.async_handler import AsyncSlackRequestHandler
 
 
 class Body(BaseModel):
@@ -46,9 +48,15 @@ class ResearchResult(BaseModel):
 
 SLACK_BOT_TOKEN = os.getenv(key='SLACK_BOT_TOKEN')
 SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
-app = App(token=SLACK_BOT_TOKEN,
+# app = App(token=SLACK_BOT_TOKEN,
+#           signing_secret=SLACK_SIGNING_SECRET)
+# app_handler = SlackRequestHandler(app)
+
+
+app = AsyncApp(token=SLACK_BOT_TOKEN,
           signing_secret=SLACK_SIGNING_SECRET)
-app_handler = SlackRequestHandler(app)
+app_handler = AsyncSlackRequestHandler(app)
+
 
 # @app.middleware  # or app.use(log_request)
 # def log_request(logger, body, next):
@@ -57,12 +65,11 @@ app_handler = SlackRequestHandler(app)
 #     return next()
 
 @app.event("app_mention")
-def app_mentioned(body, say, logger):
+async def app_mentioned(body, say, logger):
     say("What's up?")
     print('body of slack', body)
     researcher = Researcher(query='who is lebron  james')
-    researcher.query = 'who is lebron james'
-    results = researcher.conduct_research()
+    results = await researcher.conduct_research()
     print(results)
     say('this is done')
 
@@ -73,4 +80,4 @@ api = FastAPI()
 async def endpoint(req: Request):
     results = await app_handler.handle(req)
     print('request results', results)
-    return
+    return results
