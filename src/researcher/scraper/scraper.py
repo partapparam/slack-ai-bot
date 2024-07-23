@@ -49,7 +49,7 @@ class Scraper:
         """
         source = ""
         try:
-            Scraper_to_use = self.get_scraper(link)
+            Scraper_to_use = BeautifulSoupScraper
             scraper = Scraper_to_use(link, session)
 
             source = scraper.scrape()  # returns a source object
@@ -60,3 +60,37 @@ class Scraper:
             print('error on extract data = ', e)
             return None
     
+    def get_scraper(self, link):
+        """
+        The function `get_scraper` determines the appropriate scraper class based on the provided link
+        or a default scraper if none matches.
+
+        Args:
+          link: The `get_scraper` method takes a `link` parameter which is a URL link to a webpage or a
+        PDF file. Based on the type of content the link points to, the method determines the appropriate
+        scraper class to use for extracting data from that content.
+
+        Returns:
+          The `get_scraper` method returns the scraper class based on the provided link. The method
+        checks the link to determine the appropriate scraper class to use based on predefined mappings
+        in the `SCRAPER_CLASSES` dictionary.
+        """
+
+        SCRAPER_CLASSES = {
+            "bs": BeautifulSoupScraper,
+        }
+
+        scraper_key = None
+
+        if link.endswith(".pdf"):
+            scraper_key = "pdf"
+        elif "arxiv.org" in link:
+            scraper_key = "arxiv"
+        else:
+            scraper_key = self.scraper
+
+        scraper_class = SCRAPER_CLASSES.get(scraper_key)
+        if scraper_class is None:
+            raise Exception("Scraper not found.")
+
+        return scraper_class
