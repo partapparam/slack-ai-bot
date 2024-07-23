@@ -1,11 +1,9 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from functools import partial
-
 import requests
 
-from src.researcher.scraper.beautiful_soup import (
-    BeautifulSoupScraper,
-)
+from src.researcher.scraper import BeautifulSoupScraper
+
 
 
 class Scraper:

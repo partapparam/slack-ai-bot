@@ -1,3 +1,3 @@
-# from .beautiful_soup.beautiful_soup import Scraper 
+from .beautiful_soup.beautiful_soup import BeautifulSoupScraper
 
-# __all__ = ['Scraper']
+__all__ = ['BeautifulSoupScraper']
