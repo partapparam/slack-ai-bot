@@ -42,4 +42,21 @@ class Scraper:
         # The return value from extract_data_from_link is either source or None
         return [source for source in sources if source is not None]
         # return sources
+
+    def extract_data_from_link(self, link, session):  # FIXME
+        """
+        Extracts the data from the link
+        """
+        source = ""
+        try:
+            Scraper_to_use = self.get_scraper(link)
+            scraper = Scraper_to_use(link, session)
+
+            source = scraper.scrape()  # returns a source object
+            source.query = self.query
+            return source
+
+        except Exception as e:
+            print('error on extract data = ', e)
+            return None
     
