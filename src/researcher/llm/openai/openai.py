@@ -34,7 +34,7 @@ class OpenAIProvider:
             temperature=self.temperature,
             max_tokens=self.max_tokens,
             api_key=self.api_key,
-            base_url=os.environ["OPENAI_API_BASE"],
+            # base_url=os.environ["OPENAI_API_BASE"],
         )
 
         return llm
