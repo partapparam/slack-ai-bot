@@ -82,12 +82,12 @@ class Scraper:
 
         scraper_key = None
 
-        if link.endswith(".pdf"):
-            scraper_key = "pdf"
-        elif "arxiv.org" in link:
-            scraper_key = "arxiv"
-        else:
-            scraper_key = self.scraper
+        # if link.endswith(".pdf"):
+        #     scraper_key = "pdf"
+        # elif "arxiv.org" in link:
+        #     scraper_key = "arxiv"
+        # else:
+        scraper_key = self.scraper
 
         scraper_class = SCRAPER_CLASSES.get(scraper_key)
         if scraper_class is None:
