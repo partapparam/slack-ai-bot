@@ -121,8 +121,6 @@ async def get_sub_queries(
                 list_of_sub_queries, parent_query, agent_role_prompt, cfg
             )
             print(f"sub_query: '{sub_query}'")
-            # cleaned_sub_query = normalize_query(sub_query)
-            # print(f"cleaned_sub_query: '{cleaned_sub_query}'")
             list_of_sub_queries.append(sub_query)
 
     except Exception as e:
@@ -131,30 +129,6 @@ async def get_sub_queries(
         return list_of_sub_queries
 
     return list_of_sub_queries
-
-
-# def normalize_query(query: str) -> str:
-
-#     try:
-#         # Remove leading/trailing whitespace
-#         query = query.strip()
-
-#         # Remove extra quotes (single and double)
-#         query = re.sub(r"['\"]", "", query)
-
-#         # Remove any special characters or punctuation
-#         query = re.sub(r"[^a-zA-Z0-9\s]", "", query)
-
-#         # Convert to lowercase
-#         query = query.lower()
-
-#         return query
-
-#     except Exception as e:
-#         print(f"Error in normalize_query: {e}")
-#         print(f"Traceback: {traceback.format_exc()}")
-#         return query
-
 
 def scrape_urls(urls, query, cfg=None):
     """

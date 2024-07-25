@@ -43,11 +43,11 @@ class Scraper:
         return [source for source in sources if source is not None]
         # return sources
 
-    def extract_data_from_link(self, link, session):  # FIXME
+    def extract_data_from_link(self, link, session):
         """
         Extracts the data from the link
         """
-        source = ""
+        # source = ""
         try:
             Scraper_to_use = BeautifulSoupScraper
             scraper = Scraper_to_use(link, session)
