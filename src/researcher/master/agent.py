@@ -11,14 +11,15 @@ class Researcher:
     """
         Our Research Agent
     """
-    def __init(
+    def __init__(
             self,
             query: str,
             agent = None,
             role = None,
-            subqueries: list = [],
-            source_urls: list[str] = [],
-            request_id: Union[str, None] = None):
+            subqueries: list = list(),
+            source_urls: set[str] = set(),
+            request_id: Union[str, None] = None
+            ):
         """
         Initialize the Researcher class.
         Args:
@@ -34,12 +35,11 @@ class Researcher:
         self.role = role
         self.source_urls = source_urls
         self.request_id = request_id
-        self.subqueries: list = [] 
+        self.subqueries: set = set()
         self.cfg = Config()
         self.retriever = get_retriever(self.cfg.retriever)
-        self.context = []
-    
-
+        self.context = list()
+        self.memory = None
 
     async def conduct_research(self):
         """
@@ -67,7 +67,7 @@ class Researcher:
         try:
             # Generate Sub-Queries including original query
             self.subqueries = await get_sub_queries(
-                query, self.role, self.cfg, self.parent_query, self.report_type
+                query, self.role, self.cfg
             )
         except Exception as e:
             print(f"Error in get_sub_queries: {e}")

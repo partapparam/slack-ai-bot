@@ -1,18 +1,17 @@
-from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import Union, List
-from src.researcher.master import Researcher
-from slack_bolt import App
+from slack_bolt.async_app import AsyncApp
+from fastapi import FastAPI, HTTPException, Request
 from slack_bolt import (Say, Respond, Ack)
 from typing import (Dict, Any)
-from slack_bolt.adapter.fastapi import SlackRequestHandler
+from slack_bolt.adapter.fastapi.async_handler import AsyncSlackRequestHandler
 from dotenv import load_dotenv
 import os
 import json
 import logging
-logging.basicConfig(level=logging.DEBUG)
+from src.researcher.master import Researcher
+# logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
-
 
 class Body(BaseModel):
     """Represents the body of a POST request
@@ -46,28 +45,26 @@ class ResearchResult(BaseModel):
 
 SLACK_BOT_TOKEN = os.getenv(key='SLACK_BOT_TOKEN')
 SLACK_SIGNING_SECRET=os.getenv(key='SLACK_SIGNING_SECRET')
-app = App(token=SLACK_BOT_TOKEN,
-          signing_secret=SLACK_SIGNING_SECRET)
-app_handler = SlackRequestHandler(app)
 
-# @app.middleware  # or app.use(log_request)
-# def log_request(logger, body, next):
-#     logger.debug(body)
-#     print('middleware')
-#     return next()
+
+app = AsyncApp(token=SLACK_BOT_TOKEN,
+          signing_secret=SLACK_SIGNING_SECRET)
+app_handler = AsyncSlackRequestHandler(app)
 
 @app.event("app_mention")
 async def app_mentioned(body, say, logger):
-    say("What's up?")
-    researcher = Researcher()
-    researcher.query = 'who is lebron james'
-    await researcher.conduct_research()
-    return
+    await say("What's up?")
+    print('body of slack', body)
+    researcher = Researcher(query='who is lebron  james')
+    results = await researcher.conduct_research()
+    print(results)
+    await say('this is done')
 
 
 api = FastAPI()
 
 @api.post("/slack/events")
 async def endpoint(req: Request):
-    await app_handler.handle(req)
-    return 
+    results = await app_handler.handle(req)
+    print('request results', results)
+    return results
