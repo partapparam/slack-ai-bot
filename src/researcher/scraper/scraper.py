@@ -52,9 +52,9 @@ class Scraper:
             Scraper_to_use = BeautifulSoupScraper
             scraper = Scraper_to_use(link, session)
 
-            source = scraper.scrape()  # returns a source object
-            source.query = self.query
-            return source
+            content = scraper.scrape()  # returns a source object
+            # source.query = self.query
+            return content
 
         except Exception as e:
             print('error on extract data = ', e)
