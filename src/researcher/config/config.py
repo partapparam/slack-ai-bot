@@ -12,10 +12,10 @@ class Config:
         self.embedding_provider = os.getenv("EMBEDDING_PROVIDER", "openai")
         self.llm_provider = os.getenv("LLM_PROVIDER", "openai")
         self.fast_llm_model = os.getenv(
-            "FAST_LLM_MODEL", "microsoft/Phi-3-mini-4k-instruct-gguf"
+            "FAST_LLM_MODEL", "gpt-3.5-turbo-0125"	
         )
         self.smart_llm_model = os.getenv(
-            "SMART_LLM_MODEL", "microsoft/Phi-3-mini-4k-instruct-gguf"
+            "SMART_LLM_MODEL", "gpt-3.5-turbo-0125"
         )
         self.fast_token_limit = int(os.getenv("FAST_TOKEN_LIMIT", 2000))
         self.smart_token_limit = int(os.getenv("SMART_TOKEN_LIMIT", 4000))
