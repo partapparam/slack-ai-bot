@@ -1,5 +1,5 @@
 from src.researcher.master.prompts import *
-from src.researcher.scraper import Scraper
+from src.researcher.scraper.scraper import Scraper
 from src.researcher.llm.llm import *
 import asyncio
 import json
