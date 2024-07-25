@@ -38,8 +38,8 @@ class Researcher:
         self.subqueries: set = set()
         self.cfg = Config()
         self.retriever = get_retriever(self.cfg.retriever)
-        self.context = list()
-        self.memory = None
+        self.context = []
+        self.memory = Memory(self.cfg.embedding_provider)
 
     async def conduct_research(self):
         """
