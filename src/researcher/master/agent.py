@@ -144,7 +144,7 @@ class Researcher:
         sources = scrape_urls(new_search_urls, sub_query, self.cfg)
 
         scraped_content_results = [
-            {"url": source.url, "raw_content": source.parsed_text}
+            {"query": sub_query, "raw_content": source}
             for source in sources
         ]
 
