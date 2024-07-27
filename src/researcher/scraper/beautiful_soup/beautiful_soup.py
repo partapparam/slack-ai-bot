@@ -1,5 +1,4 @@
-import bs4 as BeautifulSoup
-
+from bs4 import BeautifulSoup
 class BeautifulSoupScraper:
 
     def __init__(self, link, session=None):
