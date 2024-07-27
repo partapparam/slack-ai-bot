@@ -67,7 +67,6 @@ class Researcher:
             context=self.context,
             agent_role_prompt=self.role,
             report_type=self.report_type,
-            websocket=self.websocket,
             cfg=self.cfg,
         )
 
