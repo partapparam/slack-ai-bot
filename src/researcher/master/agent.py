@@ -51,6 +51,27 @@ class Researcher:
             self.agent, self.role = await choose_agent(query=self.query, cfg=self.cfg)
         self.context = await self.get_context_by_search(self.query)
         return self
+    
+    async def write_report(self, existing_headers: list = []):
+        """
+        Writes the report based on research conducted
+
+        Returns:
+            str: The report
+        """
+        print(f'Writing summary for query: {self.query}...')
+
+       
+        report = await generate_report(
+            query=self.query,
+            context=self.context,
+            agent_role_prompt=self.role,
+            report_type=self.report_type,
+            websocket=self.websocket,
+            cfg=self.cfg,
+        )
+
+        return report
 
 
     async def get_context_by_search(self, query):
