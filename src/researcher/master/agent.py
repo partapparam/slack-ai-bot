@@ -52,7 +52,7 @@ class Researcher:
         self.context = await self.get_context_by_search(self.query)
         return self
     
-    async def write_report(self, existing_headers: list = []):
+    async def write_report(self):
         """
         Writes the report based on research conducted
 
@@ -66,7 +66,6 @@ class Researcher:
             query=self.query,
             context=self.context,
             agent_role_prompt=self.role,
-            report_type=self.report_type,
             cfg=self.cfg,
         )
 

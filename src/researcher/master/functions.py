@@ -266,7 +266,6 @@ async def generate_report(
 
     """
     report = ""
-    
     content = (
         f"{generate_summary_prompt(query, context)}"
     )
