@@ -52,13 +52,16 @@ app = AsyncApp(token=SLACK_BOT_TOKEN,
 app_handler = AsyncSlackRequestHandler(app)
 
 @app.event("app_mention")
-async def app_mentioned(body, say, logger):
-    await say("What's up?")
+async def app_mentioned(body, say):
+    await say("Starting research for")
     print('body of slack', body)
     researcher = Researcher(query='who is lebron  james')
-    results = await researcher.conduct_research()
-    print(results)
-    await say('this is done')
+    await researcher.conduct_research()
+    await say('Research is done')
+    report = await researcher.write_report()
+    print(report)
+    return report
+
 
 
 api = FastAPI()
