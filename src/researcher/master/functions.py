@@ -252,8 +252,6 @@ async def generate_report(
     context,
     agent_role_prompt,
     cfg,
-    main_topic: str = "",
-    existing_headers: list = [],
 ):
     """
     generates the final report
@@ -262,8 +260,6 @@ async def generate_report(
         context:
         agent_role_prompt:
         cfg:
-        main_topic:
-        existing_headers:
 
     Returns:
         report:
