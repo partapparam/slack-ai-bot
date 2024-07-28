@@ -251,7 +251,6 @@ async def generate_report(
     query,
     context,
     agent_role_prompt,
-    report_type,
     cfg,
     main_topic: str = "",
     existing_headers: list = [],
@@ -262,7 +261,6 @@ async def generate_report(
         query:
         context:
         agent_role_prompt:
-        report_type:
         cfg:
         main_topic:
         existing_headers:
@@ -271,12 +269,10 @@ async def generate_report(
         report:
 
     """
-    generate_prompt = get_prompt_by_report_type(report_type)
     report = ""
-
     
     content = (
-        f"{generate_prompt(query, context, cfg.report_format, cfg.total_words)}"
+        f"{generate_summary_prompt(query=query, context, cfg.report_format, cfg.total_words)}"
     )
 
     try:
