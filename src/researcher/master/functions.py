@@ -272,7 +272,7 @@ async def generate_report(
     report = ""
     
     content = (
-        f"{generate_summary_prompt(query=query, context, cfg.report_format, cfg.total_words)}"
+        f"{generate_summary_prompt(query, context)}"
     )
 
     try:
