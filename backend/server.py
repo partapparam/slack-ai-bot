@@ -54,13 +54,15 @@ app_handler = AsyncSlackRequestHandler(app)
 @app.event("app_mention")
 async def app_mentioned(body, say):
     await say("Starting research for")
-    print('body of slack', body)
-    researcher = Researcher(query='who is lebron  james')
+    text = body['event']['text']
+    print('body of slack', text)
+    print(text.split(' ')[0])
+    researcher = Researcher(query='what is happening at the olympics')
     await researcher.conduct_research()
     await say('Research is done')
     report = await researcher.write_report()
     print(report)
-    return report
+    await say(report)
 
 
 
@@ -69,5 +71,4 @@ api = FastAPI()
 @api.post("/slack/events")
 async def endpoint(req: Request):
     results = await app_handler.handle(req)
-    print('request results', results)
     return results
