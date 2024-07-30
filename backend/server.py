@@ -55,7 +55,8 @@ app_handler = AsyncSlackRequestHandler(app)
 async def app_mentioned(body, say):
     await say("Starting research for")
     raw_query = body['event']['text']
-    query = raw_query.split(' ')[1]
+    cleaned_query = raw_query.split(' ')[1:]
+    query = ' '.join(cleaned_query)
     researcher = Researcher(query=query)
     await researcher.conduct_research()
     await say('Research is done')
