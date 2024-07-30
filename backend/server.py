@@ -54,10 +54,9 @@ app_handler = AsyncSlackRequestHandler(app)
 @app.event("app_mention")
 async def app_mentioned(body, say):
     await say("Starting research for")
-    text = body['event']['text']
-    print('body of slack', text)
-    print(text.split(' ')[0])
-    researcher = Researcher(query='what is happening at the olympics')
+    raw_query = body['event']['text']
+    query = raw_query.split(' ')[1]
+    researcher = Researcher(query=query)
     await researcher.conduct_research()
     await say('Research is done')
     report = await researcher.write_report()
