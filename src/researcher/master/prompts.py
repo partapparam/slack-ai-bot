@@ -49,5 +49,5 @@ def generate_summary_prompt(query, data):
         f'{data}\n Using the above text, summarize it based on the following task or query: "{query}".\n If the '
         f"query cannot be answered using the text, YOU MUST summarize the text in short.\n Include all factual "
         f"information such as numbers, stats, quotes, etc if available. "
-        f"Your goal with your answer is to keep it short, concise, and accurate. Aim to keep it at 3 paragraphs max. No more than 300 words."
+        f"Your goal with your answer is to keep it short, concise, and accurate. Aim to keep it at 5 paragraphs max. No more than 600 words."
     )
