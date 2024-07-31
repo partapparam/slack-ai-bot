@@ -59,7 +59,7 @@ async def app_mentioned(body, say):
     user = body['event']['user']
     print(user)
     researcher = Researcher(query=query)
-    await say(f"Hey {user}, I'm starting research on the following topic:  {query}")
+    await say(f"Hey <@{user}>, I'm starting research on the following topic:  {query}")
     await researcher.conduct_research()
     await say("Research is done, we're writing up a report to summarize our findings.")
     report = await researcher.write_report()
