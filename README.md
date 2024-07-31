@@ -2,6 +2,10 @@
 ### Overview
 This Slack bot is an AI-powered researcher designed to assist users by scraping the web and providing answers based on their queries. Leveraging a large language model (LLM), the bot can efficiently gather information from various online sources and deliver concise, informative summaries directly within your Slack workspace.
 
+### Demo GIF
+![ScreenRecording2024-07-30at5 38 48PM-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/766c518d-60dd-4cde-aa1f-548349133bbe)
+
+
 ### Features
 - Web Scraping: Automatically scrapes relevant information from the web based on user queries.
 - Summarization: Uses an LLM to summarize the collected data to provide answers
