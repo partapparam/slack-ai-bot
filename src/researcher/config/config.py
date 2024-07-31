@@ -8,7 +8,7 @@ class Config:
 
     def __init__(self):
         """Initialize the config class."""
-        self.retriever = os.getenv("SEARCH_RETRIEVER", "googleSerp")
+        self.retriever = os.getenv("SEARCH_RETRIEVER", "duckduckgo")
         self.embedding_provider = os.getenv("EMBEDDING_PROVIDER", "openai")
         self.llm_provider = os.getenv("LLM_PROVIDER", "openai")
         self.fast_llm_model = os.getenv(
